@@ -23,17 +23,33 @@ class CharactersWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(32),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Text(character.name),
-            ),
             Image.network(
               character.image,
               width: 50,
               height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 230,
+                    child: Text(
+                      character.name,
+                      maxLines: 2,
+                    ),
+                  ),
+                  Text(character.gender),
+                  Text(character.species),
+                  Text(character.status),
+                ],
+              ),
             ),
           ],
         ),

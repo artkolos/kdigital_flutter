@@ -1,11 +1,13 @@
 import 'package:kdigital_test/src/domain/bloc/main_event.dart';
 import 'package:kdigital_test/src/domain/bloc/main_state.dart';
+import 'package:kdigital_test/src/domain/models/character.dart';
 import 'package:kdigital_test/src/domain/repository/characters_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainPageBloc
-    extends Bloc<MainPageEvent, MainPageState> {
+class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   final CharactersRepository _charactersRepository;
+
+  final List<Character> _characters = List.empty(growable: true);
 
   MainPageBloc(
     MainPageState initialState,
@@ -17,9 +19,6 @@ class MainPageBloc
     on<DataLoadedOnMainPageEvent>(
       (event, emitter) => _dataLoadedOnMainPageCasino(event, emitter),
     );
-    on<LoadingDataOnMainPageEvent>(
-      (event, emitter) => emitter(LoadingMainPageState()),
-    );
   }
 
   Future<void> _dataLoadedOnMainPageCasino(
@@ -27,7 +26,8 @@ class MainPageBloc
     Emitter<MainPageState> emit,
   ) async {
     if (event.characters != null) {
-      emit(SuccessfulMainPageState(event.characters!));
+      _characters.addAll(event.characters!);
+      emit(SuccessfulMainPageState([..._characters], false));
     } else {
       emit(UnSuccessfulMainPageState());
     }
@@ -37,6 +37,7 @@ class MainPageBloc
     GetTestDataOnMainPageEvent event,
     Emitter<MainPageState> emit,
   ) async {
+    emit(SuccessfulMainPageState([..._characters], true));
     _charactersRepository.getCharacters(event.page).then(
       (value) {
         add(DataLoadedOnMainPageEvent(value));

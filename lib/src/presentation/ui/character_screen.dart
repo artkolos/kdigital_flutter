@@ -20,13 +20,17 @@ class CharactersScreen extends StatelessWidget {
           InitialMainPageState(),
           GetIt.I.get<CharactersRepository>(),
         )..add(const GetTestDataOnMainPageEvent(1)),
-        child: BlocConsumer<MainPageBloc, MainPageState>(
-          listener: (context, state) {},
+        child: BlocBuilder<MainPageBloc, MainPageState>(
           builder: (blocContext, state) {
-            if (state is LoadingMainPageState) {
-              return const LoadingWidget();
-            } else if (state is SuccessfulMainPageState) {
-              return SuccessfulWidget(state: state);
+            if (state is SuccessfulMainPageState) {
+              return Stack(
+                children: [
+                  if (state.isLoading) const LoadingWidget(),
+                  SuccessfulWidget(
+                    characters: state.characters,
+                  ),
+                ],
+              );
             } else {
               return const Center(
                 child: Text("error"),

@@ -8,11 +8,6 @@ class InitialMainPageState extends MainPageState {
   List<Object> get props => [];
 }
 
-class LoadingMainPageState extends MainPageState {
-  @override
-  List<Object> get props => [];
-}
-
 class UnSuccessfulMainPageState extends MainPageState {
   @override
   List<Object> get props => [];
@@ -20,9 +15,16 @@ class UnSuccessfulMainPageState extends MainPageState {
 
 class SuccessfulMainPageState extends MainPageState {
   final List<Character> characters;
+  final bool isLoading;
 
-  SuccessfulMainPageState(this.characters);
+  SuccessfulMainPageState(
+    this.characters,
+    this.isLoading,
+  );
 
   @override
-  List<Object> get props => [characters];
+  List<Object> get props => [
+        characters,
+        isLoading,
+      ];
 }
