@@ -1,6 +1,6 @@
-import 'package:kdigital_test/src/data/repository/characters_repository.dart';
-import 'package:kdigital_test/src/presentation/bloc/main_event.dart';
-import 'package:kdigital_test/src/presentation/bloc/main_state.dart';
+import 'package:kdigital_test/src/domain/bloc/main_event.dart';
+import 'package:kdigital_test/src/domain/bloc/main_state.dart';
+import 'package:kdigital_test/src/domain/repository/characters_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPageBloc
@@ -26,7 +26,7 @@ class MainPageBloc
     DataLoadedOnMainPageEvent event,
     Emitter<MainPageState> emit,
   ) async {
-    if (event.characters == null) {
+    if (event.characters != null) {
       emit(SuccessfulMainPageState(event.characters!));
     } else {
       emit(UnSuccessfulMainPageState());
